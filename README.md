@@ -8,14 +8,15 @@
 [MySQL教程](https://www.runoob.com/mysql/mysql-tutorial.html)   
 [Spring 使用文档](https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/htmlsingle/#boot-features-embedded-database-support)            
 [Flyway](https://flywaydb.org/getstarted/firststeps/maven)  
-[Lombok](https://projectlombok.org/) 使用时需要在IDEA中添加plugin Lombok  
+[Thymeleaf](https://www.thymeleaf.org/)  
+
 
  
  
  
  ## 工具
  [Visual Paradigm 画时序图](https://www.visual-paradigm.com/cn/)
- 
+ [Lombok](https://projectlombok.org/) 使用时需要在IDEA中添加plugin Lombok 
  
  ## 快捷键
  alt + ins  快速生成set get方法    
