@@ -4,6 +4,7 @@ import com.zun.community.community.dto.PaginationDTO;
 import com.zun.community.community.dto.QuestionDTO;
 import com.zun.community.community.exception.CustomizeErrorCode;
 import com.zun.community.community.exception.CustomizeException;
+import com.zun.community.community.mapper.QuestionExtMapper;
 import com.zun.community.community.mapper.QuestionMapper;
 import com.zun.community.community.mapper.UserMapper;
 import com.zun.community.community.model.Question;
@@ -25,6 +26,9 @@ public class QuestionService {
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
@@ -131,5 +135,14 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    public void incView(Integer id) {
+
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
+
     }
 }
