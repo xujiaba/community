@@ -10,6 +10,7 @@ import com.zun.community.community.mapper.UserMapper;
 import com.zun.community.community.model.Question;
 import com.zun.community.community.model.QuestionExample;
 import com.zun.community.community.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -48,7 +50,9 @@ public class QuestionService {
 
         Integer offset = size * (page - 1);
 
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_modified desc");
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {
@@ -64,12 +68,13 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public PaginationDTO list(Integer userId, Integer page, Integer size) {
+    public PaginationDTO list(Long userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
 
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria()
                 .andCreatorEqualTo(userId);
+
         Integer totalCount = (int)questionMapper.countByExample(questionExample);;
         Integer totalPageByUserId;
         if (totalCount % size == 0) {
@@ -88,6 +93,7 @@ public class QuestionService {
         QuestionExample example = new QuestionExample();
         example.createCriteria()
                 .andCreatorEqualTo(userId);
+        example.setOrderByClause("gmt_modified desc");
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
@@ -104,7 +110,7 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
         if (question == null){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
@@ -120,6 +126,9 @@ public class QuestionService {
         if (question.getId() == null){
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
             questionMapper.insert(question);
         } else {
             Question updateQuestion = new Question();
@@ -137,12 +146,30 @@ public class QuestionService {
         }
     }
 
-    public void incView(Integer id) {
+    public void incView(Long id) {
 
         Question question = new Question();
         question.setId(id);
         question.setViewCount(1);
         questionExtMapper.incView(question);
 
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        if (StringUtils.isBlank(queryDTO.getTag())){
+            return new ArrayList<>();
+        }
+        String regexpTag = StringUtils.replace(queryDTO.getTag(), "，", "|");
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(regexpTag);
+
+        List<Question> questions = questionExtMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q, questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }

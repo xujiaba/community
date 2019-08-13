@@ -1,1 +1,0 @@
-alter table COMMENT alter column COMMENT rename to "CONTENT";
