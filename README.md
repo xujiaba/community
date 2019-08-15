@@ -1,5 +1,11 @@
 ## 可乐社区 - 学习 Spring Boot
 
+## 部署
+- GIT
+- JDK
+- MAVEN
+- MySQL
+
 ## 快速运行
 1. 运行命令创建数据库脚本
 ```sh

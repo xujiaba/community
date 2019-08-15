@@ -1,11 +1,11 @@
 create table question
 (
-	id BIGINT auto_increment,
+	id bigint auto_increment,
 	title varchar(50),
-	description TEXT,
-	gmt_create BIGINT,
-	gmt_modified BIGINT,
-	creator BIGINT,
+	description text,
+	gmt_create bigint,
+	gmt_modified bigint,
+	creator bigint,
 	comment_count int default 0,
 	view_count int default 0,
 	like_count int default 0,
