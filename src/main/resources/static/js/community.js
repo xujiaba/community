@@ -106,7 +106,14 @@ function collapseComments(e) {
 }
 
 function showSelectTag() {
-    $("#select-tag").show();
+    var showTags = $("#select-tag");
+    if (showTags.hasClass("NoHidden")){
+        showTags.hide();
+        showTags.removeClass("NoHidden");
+    } else {
+        showTags.show();
+        showTags.addClass("NoHidden");
+    }
 }
 
 function selectTag(e) {

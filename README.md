@@ -1,49 +1,54 @@
-## 学习Spring Boot 
+## 可乐社区 - 学习 Spring Boot
 
-## 资料
-[Spring Guide文档](https://spring.io/guides)  
-[Bootstrap 文档](https://v3.bootcss.com)   
-[Github OAuth API Doc](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)  
-[OKHttp Doc](https://square.github.io/okhttp/)            
-[MySQL教程](https://www.runoob.com/mysql/mysql-tutorial.html)   
-[Spring 使用文档](https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/htmlsingle/#boot-features-embedded-database-support)            
-[Flyway](https://flywaydb.org/getstarted/firststeps/maven)  
-[Thymeleaf](https://www.thymeleaf.org/)  
-[Spring MVC](https://docs.spring.io/spring/docs/5.0.3.RELEASE/spring-framework-reference/web.html#mvc-config-interceptors)  
-
-
-
- 
- 
- 
- ## 工具
- [Visual Paradigm 画时序图](https://www.visual-paradigm.com/cn/)
- [Lombok](https://projectlombok.org/) 使用时需要在IDEA中添加plugin Lombok 
- 
- ## 快捷键
- alt + ins  快速生成set get方法    
- ctrl + E   切换到最近编辑的一个窗口
- 
- 
- 
- ## 脚本
- ```sql
- create table USER
- (
- 	ID int auto_increment,
- 	ACCOUNT_ID VARCHAR(100),
- 	NAME VARCHAR(50),
- 	TOKEN CHAR,
- 	GMT_CREATE BIGINT,
- 	GMT_MODIFIED BIGINT,
- 	constraint USER_PK
- 		primary key (ID)
- );
-```
-```shell script
+## 快速运行
+1. 运行命令创建数据库脚本
+```sh
 mvn flyway:migrate
 ```
- 
- ```shell script
+2.运行打包命令
+```sh
+mvn package
+```
+3.运行项目  
+```sh
+java -jar target/community-0.0.1-SNAPSHOT.jar
+```
+4. 访问项目
+```
+http://localhost:8887
+```
+
+
+## 资料
+[Spring 文档](https://spring.io/guides)    
+[Spring Web](https://spring.io/guides/gs/serving-web-content/)   
+[es](https://elasticsearch.cn/explore)    
+[Github deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys)    
+[Bootstrap](https://v3.bootcss.com/getting-started/)    
+[Github OAuth](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)    
+[Spring](https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/htmlsingle/#boot-features-embedded-database-support)    
+[菜鸟教程](https://www.runoob.com/mysql/mysql-insert-query.html)    
+[Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#setting-attribute-values)    
+[Spring Dev Tool](https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/htmlsingle/#using-boot-devtools)  
+[Spring MVC](https://docs.spring.io/spring/docs/5.0.3.RELEASE/spring-framework-reference/web.html#mvc-handlermapping-interceptor)  
+[Markdown 插件](http://editor.md.ipandao.com/)   
+[UFfile SDK](https://github.com/ucloud/ufile-sdk-java)  
+[Count(*) VS Count(1)](https://mp.weixin.qq.com/s/Rwpke4BHu7Fz7KOpE2d3Lw)  
+
+## 工具
+[Git](https://git-scm.com/download)   
+[Visual Paradigm](https://www.visual-paradigm.com)    
+[Flyway](https://flywaydb.org/getstarted/firststeps/maven)  
+[Lombok](https://www.projectlombok.org)    
+[ctotree](https://www.octotree.io/)   
+[Table of content sidebar](https://chrome.google.com/webstore/detail/table-of-contents-sidebar/ohohkfheangmbedkgechjkmbepeikkej)    
+[One Tab](https://chrome.google.com/webstore/detail/chphlpgkkbolifaimnlloiipkdnihall)    
+[Live Reload](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei/related)  
+[Postman](https://chrome.google.com/webstore/detail/coohjcphdfgbiolnekdpbcijmhambjff)
+
+## 脚本
+
+```bash
+mvn flyway:migrate
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 ```
