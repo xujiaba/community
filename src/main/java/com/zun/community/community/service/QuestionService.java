@@ -2,6 +2,7 @@ package com.zun.community.community.service;
 
 import com.zun.community.community.dto.PaginationDTO;
 import com.zun.community.community.dto.QuestionDTO;
+import com.zun.community.community.dto.QuestionQueryDTO;
 import com.zun.community.community.exception.CustomizeErrorCode;
 import com.zun.community.community.exception.CustomizeException;
 import com.zun.community.community.mapper.QuestionExtMapper;
@@ -32,9 +33,15 @@ public class QuestionService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public PaginationDTO<QuestionDTO> list(Integer page, Integer size) {
+    public PaginationDTO<QuestionDTO> list(String search, Integer page, Integer size) {
+        if (StringUtils.isNotBlank(search)){
+            search = StringUtils.replace(search, " ", "|");
+        }
+
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
-        Integer totalCount = (int)questionMapper.countByExample(new QuestionExample());
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
         Integer totalPage;
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -52,7 +59,9 @@ public class QuestionService {
 
         QuestionExample questionExample = new QuestionExample();
         questionExample.setOrderByClause("gmt_modified desc");
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {

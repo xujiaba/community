@@ -3,6 +3,8 @@ package com.zun.community.community.controller;
 
 import com.zun.community.community.cache.TagCache;
 import com.zun.community.community.dto.QuestionDTO;
+import com.zun.community.community.exception.CustomizeErrorCode;
+import com.zun.community.community.exception.CustomizeException;
 import com.zun.community.community.mapper.QuestionMapper;
 import com.zun.community.community.model.Question;
 import com.zun.community.community.model.User;
@@ -26,9 +28,15 @@ public class PublishController {
 
     @GetMapping("/publish/{id}")
     public String edit(@PathVariable(name = "id") Long id,
+                       HttpServletRequest request,
                        Model model) {
-
         QuestionDTO question = questionService.getById(id);
+
+        User user = (User)request.getSession().getAttribute("user");
+
+        if (question.getCreator() != user.getId()){
+            throw new CustomizeException(CustomizeErrorCode.INVALID_OPERATION);
+        }
 
         model.addAttribute("title", question.getTitle());
         model.addAttribute("description", question.getDescription());
