@@ -18,7 +18,9 @@ mvn package
 3.运行项目  
 ```sh
 java -jar target/community-0.0.1-SNAPSHOT.jar
+java -jar -Dspring.profiles.active=production target/community-0.0.1-SNAPSHOT.jar
 ```
+
 4. 访问项目
 ```
 http://localhost:8887

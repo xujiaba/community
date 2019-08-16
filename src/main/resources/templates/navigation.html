@@ -42,7 +42,8 @@
                         </ul>
                     </li>
                     <li th:if="${session.user == null}">
-                        <a href="https://github.com/login/oauth/authorize?client_id=44c8ff0559e6382ebc8d&redirect_uri=http://localhost:8887/callback&scope=user&state=1">登录</a>
+<!--                        <a href="https://github.com/login/oauth/authorize?client_id=44c8ff0559e6382ebc8d&redirect_uri=http://localhost:8887/callback&scope=user&state=1">登录</a>-->
+                        <a th:href="@{https://github.com/login/oauth/authorize(client_id='44c8ff0559e6382ebc8d',redirect_uri=${#httpServletRequest.getServletContext().getAttribute('redirectUri')},scope='user',state=1)}">登录</a>
                     </li>
 
                 </ul>
